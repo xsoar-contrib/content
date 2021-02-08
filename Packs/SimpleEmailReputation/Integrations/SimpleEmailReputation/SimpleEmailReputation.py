@@ -126,7 +126,7 @@ def main() -> None:
             result = test_module(client)
             return_results("ok")
 
-        elif demisto.command() == 'email':
+        elif demisto.command() == 'emailrep-get-reputation':
             return_results(email_reputation_command(client, demisto.args()))
 
     # Log exceptions and return errors
