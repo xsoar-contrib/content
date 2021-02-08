@@ -1,8 +1,6 @@
-import json
 import traceback
-from typing import Any, Dict, List, Optional, Tuple, Union, cast
+from typing import Any, Dict, List
 
-import dateparser
 import demistomock as demisto  # noqa: F401
 import urllib3
 from CommonServerPython import *  # noqa: F401
@@ -83,8 +81,8 @@ def email_reputation_command(client: Client, args: Dict[str, Any]) -> List[Comma
 
 
 def test_module(client: Client):
-    em_data = client.get_email_reputation('test@test.com')
-    return em_data
+    client.get_email_reputation('test@test.com')
+    return 'ok'
 
 
 ''' MAIN FUNCTION '''
@@ -123,8 +121,8 @@ def main() -> None:
 
         if demisto.command() == 'test-module':
             # This is the call made when pressing the integration Test button.
-            result = test_module(client)
-            return_results("ok")
+            res = test_module(client)
+            return_results(res)
 
         elif demisto.command() == 'email':
             return_results(email_reputation_command(client, demisto.args()))
