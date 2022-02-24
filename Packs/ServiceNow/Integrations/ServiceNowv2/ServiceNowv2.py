@@ -1,13 +1,13 @@
+register_module_line('ServiceNow v2', 'start', __line__())
+from urllib import parse
+
 import os
 import shutil
 from typing import Any, Callable, Dict, List, Optional, Tuple, Union
-from urllib import parse
 
 import dateparser
 import demistomock as demisto  # noqa: F401
 from CommonServerPython import *  # noqa: F401
-
-register_module_line('ServiceNow v2', 'start', __line__())
 
 
 # disable insecure warnings
