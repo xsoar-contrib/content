@@ -7,7 +7,7 @@ rsa==3.4.2
 paramiko==2.6.0
 pyminizip===0.2.6
 google-cloud-storage==1.29.0
-google-cloud-bigquery==1.26.1
+google-cloud-bigquery==3.2.0
 prettytable==0.7.2
 circleci==1.2.2
 boto3==1.16.39
