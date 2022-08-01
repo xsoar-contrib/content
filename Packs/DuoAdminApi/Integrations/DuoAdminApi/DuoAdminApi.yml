@@ -108,15 +108,18 @@ script:
   - arguments:
     - description: user to dissociate a device from
       name: username
+      type: string
       required: true
     - description: the device id to dissociate
       name: device_id
+      type: string
       required: true
     description: Dissociates a device from a user
     name: duoadmin-dissociate-device-from-user
   - arguments:
     - description: the id of the token to delete
       name: token_id
+      type: string
       required: true
     description: Delete a u2f token
     name: duoadmin-delete-u2f-token
@@ -147,9 +150,11 @@ script:
       type: string
     - contextPath: DuoAdmin.UserDetails.phones
       description: Phone numbers
+      type: string
   - arguments:
     - description: Username
       name: username
+      type: string
       required: true
     description: Return devices associated with a user
     name: duoadmin-get-devices-by-user
@@ -169,38 +174,41 @@ script:
   - arguments:
     - description: username
       name: username
+      type: string
       required: true
     description: Returns a list of U2F tokens associated with the given username
     name: duoadmin-get-u2f-tokens-by-user
     outputs:
     - contextPath: DuoAdmin.UserDetails.u2ftokens
-      description: The list of  tokens
-      type: Unknown
+      description: The list of tokens
+      type: string
   - arguments: []
     description: Returns all existing devices
     name: duoadmin-get-devices
     outputs:
     - contextPath: DuoAdmin.Phones.phone_id
       description: Device Id
-      type: Unknown
+      type: string
     - contextPath: DuoAdmin.Phones.number
       description: Device number
-      type: Unknown
+      type: string
     - contextPath: DuoAdmin.Phones.platform
       description: Device platform
-      type: Unknown
+      type: string
     - contextPath: DuoAdmin.Phones.last_seen
       description: Last time the device was used
-      type: Unknown
+      type: string
     - contextPath: DuoAdmin.Phones.users
       description: Users associated with this device
-      type: Unknown
+      type: string
   - arguments:
     - description: Username
       name: username
+      type: string
       required: true
     - description: Device Id
       name: device_id
+      type: string
       required: true
     description: Associates a device to a user
     name: duoadmin-associate-device-to-user
@@ -213,6 +221,7 @@ script:
       type: string
     - contextPath: DuoAdmin.UserDetails.admin_units
       description: Admin Units
+      type: string
     - contextPath: DuoAdmin.UserDetails.created
       description: Created
       type: date
@@ -227,6 +236,7 @@ script:
       type: string
     - contextPath: DuoAdmin.UserDetails.phone
       description: Phone
+      type: string
     - contextPath: DuoAdmin.UserDetails.role
       description: Admin Role
       type: string
@@ -239,7 +249,7 @@ script:
     outputs:
     - contextPath: DuoAdmin.UserDetails.bypass_code_id
       description: Bypass Code Id
-      type: unknown
+      type: string
     - contextPath: DuoAdmin.UserDetails.admin_email
       description: Admin Email
       type: string
@@ -248,64 +258,103 @@ script:
       type: date
     - contextPath: DuoAdmin.UserDetails.expiration
       description: Bypass Expiration
+      type: date
     - contextPath: DuoAdmin.UserDetails.reuse_count
       description: Bypass Reuse Count
+      type: number
     - contextPath: DuoAdmin.UserDetails.user.username
       description: Username
+      type: string
     - contextPath: DuoAdmin.UserDetails.user.created
       description: Created
+      type: date
     - contextPath: DuoAdmin.UserDetails.user.email
       description: Email
+      type: string
     - contextPath: DuoAdmin.UserDetails.user.last_login
       description: Last Login
+      type: date
     - contextPath: DuoAdmin.UserDetails.user.status
       description: Status
+      type: string
     - contextPath: DuoAdmin.UserDetails.user.user_id
       description: User Id
+      type: string
   - arguments:
     - description: The admin_id of the admin user
       name: user_id
+      type: string
       required: true
     - defaultValue: None
       description: The name of the admin user
       name: name
+      type: string
     - defaultValue: None
       description: The phone number of the admin user
       name: phone
+      type: string
     - defaultValue: None
       description: the password of the admin user
       name: password
+      type: string
     - defaultValue: 'FALSE'
       description: a flag to determine if the password should change
+      type: boolean
       name: password_change_required
+      type: boolean
+      predefined:
+      - FALSE
+      - TRUE
     - description: The status of the admin user - Only Active or Disabled - Disabled
         will not work with admin role = Owner
       name: status
+      type: string
+      predefined:
+      - Active
+      - Disabled
     description: Modify the administrator user
     name: duoadmin-modify-admin
   - arguments:
     - description: The user_id of the user
       name: user_id
+      type: string
       required: true
     - description: The username of the user
       name: username
+      type: string
     - description: The real name of the user
       name: realname
+      type: string
     - description: The status of the user
       name: status
+      type: string
     - description: Notes for the user
       name: notes
+      type: string
     - description: The email of the user
       name: email
+      type: string
     - description: The firstname of the user
       name: firstname
+      type: string
     - description: The lastname of the user
       name: lastname
-    - name: alias1
-    - name: alias2
-    - name: alias3
-    - name: alias4
-    - name: aliases
+      tyoe: string
+    - description: The first alias of the user
+      name: alias1
+      type: string
+    - description: The second alias of the user
+      name: alias2
+      type: string
+    - description: The third alias of the user
+      name: alias3
+      type: string
+    - description: The fourth alias of the user
+      name: alias4
+      type: string
+    - description: The list of alias of the user
+      name: aliases
+      type: string
     description: Modify the user account
     name: duoadmin-modify-user
   dockerimage: demisto/duoadmin:1.0.0.24033
