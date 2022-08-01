@@ -1,21 +1,7 @@
 import calendar
-
 import demistomock as demisto  # noqa: F401
 import duo_client
 from CommonServerPython import *  # noqa: F401
-
-register_module_line('DUO Admin', 'start', __line__())
-
-# Integrations
-# DUO
-#  - Added command get_all_bypass_codes, which provides the ability to pull information from the bypass_code table.
-#     This identifies users in bypass mode, and allows for actions against these accounts
-#  - Added command get_all_admins, which provides the ability to get a list of the admininstrator accounts
-#  - Added command modify_admin_user, which allows the use of the update_admin command within the api
-#  - Added command modify_user, which allows the use of the update_user command within the api
-#  - Updated command get_all_users to include more of the fields available within the user table
-# imports
-
 
 # Setup
 
@@ -395,13 +381,13 @@ def get_all_admins():
 
 def modify_admin_user(user_id, name, phone, password, password_change_required, status):
     admin_api.update_admin(user_id, name, phone, password, password_change_required, status)
-    demisto.results('Status for' + user_id + ' Successful updated to ' + status)
+    demisto.results('Status for ' + user_id + ' Successful updated to ' + status)
 
 
 def modify_user(user_id, username, realname, status, notes, email, firstname, lastname, alias1, alias2, alias3, alias4, aliases):
     admin_api.update_user(user_id, username, realname, status, notes, email, firstname,
                           lastname, alias1, alias2, alias3, alias4, aliases)
-    demisto.results('Status for' + user_id + ' Successful updated to ' + status)
+    demisto.results('Status for ' + user_id + ' Successful updated to ' + status)
 
 
 # Execution
@@ -457,5 +443,3 @@ except Exception as e:
     demisto.error("Duo Admin failed on: {} on this command {}".format(e, demisto.command))
     return_error(e.message)
 sys.exit(0)
-
-register_module_line('DUO Admin', 'end', __line__())
