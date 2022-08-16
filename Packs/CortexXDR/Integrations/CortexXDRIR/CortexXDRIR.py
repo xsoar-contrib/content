@@ -3,7 +3,6 @@ import secrets
 import string
 
 import demistomock as demisto  # noqa: F401
-import requests
 from CommonServerPython import *  # noqa: F401
 from CoreIRApiModule import *
 
@@ -968,8 +967,7 @@ def xdr_add_tag_command(client: Client, args: Dict):
             args: list of supporting arguments
     '''
     endpoint_ids = argToList(args.get("endpoint_id"))
-    tag = str(args.get("tag"))
-    params = demisto.params()
+    tag = str(args.get("tag")
     headers = client._headers
     headers['Content-Type'] = 'application/json'
     if len(endpoint_ids) >= min_to_split:
@@ -1025,7 +1023,6 @@ def xdr_remove_tag_command(client: Client, args: Dict):
     tag = str(args.get("tag"))
     headers = client._headers
     headers['Content-Type'] = 'application/json'
-    params = demisto.params()
     if len(endpoint_ids) >= min_to_split:
         for batch in chunked_iterable(endpoint_ids, batch_size):
             payload = {
