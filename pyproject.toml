@@ -52,7 +52,7 @@ boto3 = "^1.23.5"
 jsonschema = "^4.6.0"
 google-cloud-bigquery = "^3.2.0"
 db-dtypes = "^1.0.1"
-google-cloud-secret-manager = "^2.13.0"
+google-cloud-secret-manager = "^2.15.1"
 json5 = "^0.9.10"
 
 [build-system]
