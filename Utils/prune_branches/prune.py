@@ -43,20 +43,19 @@ import pandas as pd
 def main(args):
 
     """
-    Prune GitHub branches of a provided repository based on the specified branch name filter and months ago.
+    Prune GitHub branches of a provided cloned local repository based on the specified branch name filter and months ago.
     
     The procedure is:
 
     1. Open the cloned `git` repository locally. Make sure you run `git fetch|pull` to retrieve all remote refs.
     2. Retrieve a list of the remote references.
     3. Iterate over each reference to retrieve the branch from GitHub.
-    4. Attempt to get and remove the protection on that branch. 
-    5. Attempt to remove the remote branch.
+    4. Attempt to get and remove the protection on that branch.
+    5. Attempt to remove the remote branch. If a Pull Request was opened through the remote branch, it will be closed.
 
     The script outputs two files:
-    - `/tmp/prune-UUID.log`: To change verbosity, set the logging.basicConfig(level=logging.DEBUG)
-    - `/tmp/prune-UUID.csv`: A CSV that summarizes the execution results. Includes branch name, last modified date, whether it was deleted or not.
-)
+    - `/tmp/prune-UUID.log`: To change verbosity, set the `logging.basicConfig(level=logging.DEBUG)`
+    - `/tmp/prune-REPO_NAME-UUID.csv`: A CSV that summarizes the execution results. Includes branch name, last modified date, whether it was deleted or not.
     
     Args:
         - `local_git_path` (``str``): Path to the local `git` repository.
@@ -66,6 +65,8 @@ def main(args):
         e.g given 'contrib', only branches with 'contrib' in their name will be processed.
         - `remote_name` (``str``): The name of the remote if different than 'origin'.
         - `months_ago` (``int``): The number of months used as cutoff. Branches that were modified after this cutoff will be skipped.
+        - `limit` (``int``): The number of branches to delete.
+        - `is_dry_run` (``bool``): If set, it will simulate deletion of the remote branch on GitHub.
     """
 
     # Create git repo
@@ -94,7 +95,7 @@ def main(args):
     logger.info(f"Found {len(remote_branches)} remote branches in repository '{args.local_git_path}' based on branch name filter '{args.branch_name_filter}':")
     logger.debug('\n'.join(remote_branches))
 
-    # Authenticate with github
+    # Authenticate with GitHub
     gh = Github(args.gh_token, verify=False)
     gh_repo = gh.get_repo(args.gh_repo)
 
@@ -104,10 +105,16 @@ def main(args):
     logger.info(f"Cutoff date: {cutoff_date.strftime('%Y/%m/%d %H:%M:%S')}")
     summary: list[dict[str, Any]] = []
 
-    # Iterate over all 
-    # Check if the branch is 
-    # TODO rm range for prod
-    for b in remote_branches[0:20]:
+    # Iterate over branches 
+    logger.info(f"Limiting deletion of the first {args.limit} branches")
+
+    # If the number of remote branches is larger than the limit
+    # we want to take that subset
+    if len(remote_branches) > args.limit:
+        logger.info(f"The limit supplied ({args.limit}) is smaller than the remote branches, iterating over subset of remote branches...")
+        remote_branches = remote_branches[:args.limit]
+
+    for b in remote_branches:
         entry: dict[str, Any] = {"branch": b}
         try:
             rb = gh_repo.get_branch(b)
@@ -138,20 +145,23 @@ def main(args):
                 logger.warning(f"Unable to get or remove protection from remote branch '{b}': {str(ghe)}")
             
             # If in case the get/rm protection fails (e.g. protection wasn't found and cannot be removed)
-            # we still want to delete the branch.
+            # we still want to delete the branch (if we're not in dry run).
             finally:
-                logger.debug(f"Attempting to delete branch '{b}'...")
-                try:
-                    ref = gh_repo.get_git_ref(f"heads/{b}")
-                    # TODO uncomment for prod
-                    # ref.delete()
-                    entry["deleted"] = True
-                    logger.debug(f"Branch '{b}' deleted successfully")
-                except GithubException as ghe:
-                    msg = f"Failed deleting the branch '{b}': {str(ghe)}"
-                    logger.error(msg)
+                if not args.is_dry_run:
+                    try:
+                        logger.debug(f"Attempting to delete branch '{b}'...")
+                        ref = gh_repo.get_git_ref(f"heads/{b}")
+                        ref.delete()
+                        entry["deleted"] = True
+                        logger.debug(f"Branch '{b}' deleted successfully")
+                    except GithubException as ghe:
+                        msg = f"Failed deleting the branch '{b}': {str(ghe)}"
+                        logger.error(msg)
+                        entry["deleted"] = False
+                        entry["comment"] = msg
+                else:
                     entry["deleted"] = False
-                    entry["comment"] = msg
+                    entry["comment"] = "Was supposed to be deleted but dry run was set."
 
         except GithubException as ghe:
             logger.error(f"Unable to find remote branch '{b}' from GitHub: {str(ghe)}")
@@ -163,7 +173,7 @@ def main(args):
             summary.append(entry)
 
     df = pd.DataFrame(summary)
-    output_file = f"/tmp/prune-{UUID}.csv"
+    output_file = f"/tmp/prune-{args.gh_repo.split('/')[1]}-{UUID}.csv"
     logger.info(f"Saving summary to '{output_file}'...")
     df.to_csv(output_file)
 
@@ -196,6 +206,20 @@ if __name__ == "__main__":
         default=3,
         type=int,
         help="The number of months to use as cutoff. Defaults to 3"
+    )
+    parser.add_argument(
+        "-d", "--dry-run",
+        action="store_true",
+        dest="is_dry_run",
+        help="True if you just want to print the branches to delete."
+    )
+    parser.add_argument(
+        "-l", "--limit",
+        action="store",
+        dest="limit",
+        default=100,
+        type=int,
+        help="The number of branches to delete",
     )
 
 
