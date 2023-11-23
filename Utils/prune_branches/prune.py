@@ -26,7 +26,7 @@ logging.basicConfig(
     filename=log_file_path,
     format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
     datefmt='%H:%M:%S',
-   level=logging.INFO
+    level=logging.INFO
 )
 
 logger = logging.getLogger(__file__)
@@ -43,12 +43,29 @@ import pandas as pd
 def main(args):
 
     """
-    Prune GitHub branches. The procedure is:
+    Prune GitHub branches of a provided repository based on the specified branch name filter and months ago.
+    
+    The procedure is:
 
-    1. Open the cloned 
+    1. Open the cloned `git` repository locally. Make sure you run `git fetch|pull` to retrieve all remote refs.
+    2. Retrieve a list of the remote references.
+    3. Iterate over each reference to retrieve the branch from GitHub.
+    4. Attempt to get and remove the protection on that branch. 
+    5. Attempt to remove the remote branch.
+
+    The script outputs two files:
+    - `/tmp/prune-UUID.log`: To change verbosity, set the logging.basicConfig(level=logging.DEBUG)
+    - `/tmp/prune-UUID.csv`: A CSV that summarizes the execution results. Includes branch name, last modified date, whether it was deleted or not.
+)
     
     Args:
-    
+        - `local_git_path` (``str``): Path to the local `git` repository.
+        - `gh_token` (``str``): The GitHub token used to authenticate with GitHub.
+        - `gh_repo` (``str``): The repo name in ORG/REPO format.
+        - `filter` (``str``): A filter used to match which branches should be processed. 
+        e.g given 'contrib', only branches with 'contrib' in their name will be processed.
+        - `remote_name` (``str``): The name of the remote if different than 'origin'.
+        - `months_ago` (``int``): The number of months used as cutoff. Branches that were modified after this cutoff will be skipped.
     """
 
     # Create git repo
