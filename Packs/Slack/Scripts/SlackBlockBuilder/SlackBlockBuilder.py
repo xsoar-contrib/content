@@ -1,5 +1,7 @@
 import demistomock as demisto  # noqa: F401
 from CommonServerPython import *  # noqa: F401
+
+
 from typing import Dict, Any, List
 import traceback
 import urllib.parse
@@ -120,9 +122,10 @@ class BlockCarrier:
             elif block.get('type') == 'section':
                 if 'accessory' in block:
                     sec_action_id: str = block.get('accessory', {}).get('type', '')
-                    block['block_id'] = sec_action_id + '_' + str(action_id_int)
-                    block['accessory']['action_id'] = sec_action_id + str(action_id_int)
-                    action_id_int += 1
+                    if not sec_action_id == 'image':
+                        block['block_id'] = sec_action_id + '_' + str(action_id_int)
+                        block['accessory']['action_id'] = sec_action_id + str(action_id_int)
+                        action_id_int += 1
 
     def _add_submit_button(self):
         """Adds a submit button with a known action_id
@@ -217,7 +220,7 @@ class BlockCarrier:
 
 class SendNotification:
     def __init__(self, blocks_carrier: BlockCarrier, slack_instance: Optional[str] = None, to: Optional[str] = None,
-                 channel_id: Optional[str] = None, channel: Optional[str] = None):
+                 channel_id: Optional[str] = None, channel: Optional[str] = None, threadID: Optional[str] = None):
         self.blocks_carrier: BlockCarrier = blocks_carrier
         self.send_response: list = []
         self.command_args: dict = {
@@ -227,6 +230,9 @@ class SendNotification:
         }
         if slack_instance:
             self.command_args['using'] = slack_instance
+        # Set if the thread_id argument was passed in by the end user
+        if threadID:
+            self.command_args['threadID'] = threadID
         # Determine Destination, Raise error if not given
         if to:
             self.command_args['to'] = to
@@ -274,16 +280,30 @@ def slack_block_builder_command(args: Dict[str, Any]):
     to = demisto.get(obj=args, field='user')
     channel = demisto.get(obj=args, field='channel')
     channel_id = demisto.get(obj=args, field='channel_id')
+    thread_id = demisto.get(obj=args, field='thread_id')
 
     block_carrier = BlockCarrier(url=blocks_url, list_name=list_name, task=task, persistent=persistent,
                                  reply_entries_tag=reply_entries_tag, lifetime=lifetime,
                                  reply=reply, default_response=default_response)
     block_carrier.format_blocks()
     notification = SendNotification(blocks_carrier=block_carrier, slack_instance=slack_instance, to=to,
-                                    channel_id=channel_id, channel=channel)
+                                    channel_id=channel_id, channel=channel, threadID=thread_id)
     notification.send()
     human_readable = notification.send_response[0]['HumanReadable']
-    return CommandResults(readable_output=human_readable)
+    # Dict object returned from sending the message; contains Slack metadata
+    context_output = {
+        'ThreadID': notification.send_response[0].get('Contents', {}).get('ts'),
+        'Channel': notification.send_response[0].get('Contents', {}).get('channel'),
+        'Text': notification.send_response[0].get('Contents', {}).get('message', {}).get('text'),
+        'BotID': notification.send_response[0].get('Contents', {}).get('message', {}).get('bot_id'),
+        'Username': notification.send_response[0].get('Contents', {}).get('message', {}).get('username'),
+        'AppID': notification.send_response[0].get('Contents', {}).get('message', {}).get('app_id')
+    }
+    return CommandResults(
+        readable_output=human_readable,
+        outputs_prefix='SlackBlockBuilder',
+        outputs=context_output
+    )
 
 
 ''' MAIN FUNCTION '''
