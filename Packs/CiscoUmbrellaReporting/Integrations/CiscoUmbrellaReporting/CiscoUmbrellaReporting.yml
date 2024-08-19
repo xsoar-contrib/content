@@ -1548,7 +1548,7 @@ script:
       type: Number
   dockerimage: demisto/python3:3.11.9.107902
   runonce: false
-  script: ''
+  script: '-'
   subtype: python3
   type: python
 tests:
