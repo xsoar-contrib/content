@@ -2115,7 +2115,8 @@ def get_username_uuid(username: str):
     return resources[0]
 
 
-def resolve_detection(ids, status, assigned_to_uuid, show_in_ui, comment, tag):
+def resolve_detection(ids, status, assigned_to_uuid, username, show_in_ui, comment, tag):
+
     """
     Sends a resolve detection request
     :param ids: Single or multiple ids in an array string format.
@@ -2140,12 +2141,14 @@ def resolve_detection(ids, status, assigned_to_uuid, show_in_ui, comment, tag):
         # modify the payload to match the Raptor API
         ids = payload.pop("ids")
         payload["assign_to_uuid"] = payload.pop("assigned_to_uuid") if "assigned_to_uuid" in payload else None
+        payload["assign_to_user_id"] = username if username else None
         payload["update_status"] = payload.pop("status") if "status" in payload else None
         payload["append_comment"] = payload.pop("comment") if "comment" in payload else None
         if tag:
             payload["add_tag"] = tag
 
         data = json.dumps(resolve_detections_prepare_body_request(ids, payload))
+
     else:
         # We do this so show_in_ui value won't contain ""
         data = (
@@ -2155,6 +2158,7 @@ def resolve_detection(ids, status, assigned_to_uuid, show_in_ui, comment, tag):
         )
     url = "/alerts/entities/alerts/v3" if not LEGACY_VERSION else "/detects/entities/detects/v2"
     return http_request("PATCH", url, data=data)
+
 
 
 def contain_host(ids):
@@ -4633,7 +4637,7 @@ def resolve_detection_command():
     comment = args.get("comment")
     if username and assigned_to_uuid:
         raise ValueError("Only one of the arguments assigned_to_uuid or username should be provided, not both.")
-    if username:
+    if LEGACY_VERSION and username:
         assigned_to_uuid = get_username_uuid(username)
 
     status = args.get("status")
@@ -4643,12 +4647,13 @@ def resolve_detection_command():
         raise DemistoException("Please provide at least one argument to resolve the detection with.")
     if LEGACY_VERSION and tag:
         raise DemistoException("tag argument is only relevant when running with API V3.")
-    raw_res = resolve_detection(ids, status, assigned_to_uuid, show_in_ui, comment, tag)
+    raw_res = resolve_detection(ids, status, assigned_to_uuid, username, show_in_ui, comment, tag)
     args.pop("ids")
     hr = f"Detection {str(ids)[1:-1]} updated\n"
     hr += "With the following values:\n"
     for k, arg in args.items():
         hr += f"\t{k}:{arg}\n"
+
     return create_entry_object(contents=raw_res, hr=hr)
 
 
