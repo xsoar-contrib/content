@@ -1,0 +1,190 @@
+{
+    "author": "Randy Uhrlaub",
+    "authorImage": "",
+    "categories": [
+        "Utilities"
+    ],
+    "certification": "",
+    "commit": "920186466b0c00fe1076377fb07fdf38433a0ca8",
+    "contentCommitHash": null,
+    "contentDisplays": {
+        "integration": "Integration"
+    },
+    "contentItems": {
+        "integration": [
+            {
+                "category": "Utilities",
+                "commands": [
+                    {
+                        "deprecated": false,
+                        "description": "Add a document to a workspace and create its vector embedding in the workspace.",
+                        "name": "anyllm-workspace-add-embedding",
+                        "source_repo": "content"
+                    },
+                    {
+                        "deprecated": false,
+                        "description": "List all the workspaces in AnythingLLM.",
+                        "name": "anyllm-workspace-list",
+                        "source_repo": "content"
+                    },
+                    {
+                        "deprecated": false,
+                        "description": "Uploads a web link to the custom-documents folder.",
+                        "name": "anyllm-document-upload-link",
+                        "source_repo": "content"
+                    },
+                    {
+                        "deprecated": false,
+                        "description": "Get a specific document details.",
+                        "name": "anyllm-document-get",
+                        "source_repo": "content"
+                    },
+                    {
+                        "deprecated": false,
+                        "description": "Uploads an XSOAR file entry to the custom-documents folder.",
+                        "name": "anyllm-document-upload-file",
+                        "source_repo": "content"
+                    },
+                    {
+                        "deprecated": false,
+                        "description": "Move a document from a source folder to a destination folder.",
+                        "name": "anyllm-document-move",
+                        "source_repo": "content"
+                    },
+                    {
+                        "deprecated": false,
+                        "description": "Delete a document embedding from the workspace.",
+                        "name": "anyllm-workspace-delete-embedding",
+                        "source_repo": "content"
+                    },
+                    {
+                        "deprecated": false,
+                        "description": "List all document details.",
+                        "name": "anyllm-document-list",
+                        "source_repo": "content"
+                    },
+                    {
+                        "deprecated": false,
+                        "description": "Get a specific workspace details.",
+                        "name": "anyllm-workspace-get",
+                        "source_repo": "content"
+                    },
+                    {
+                        "deprecated": false,
+                        "description": "Create a new document folder.",
+                        "name": "anyllm-document-createfolder",
+                        "source_repo": "content"
+                    },
+                    {
+                        "deprecated": false,
+                        "description": "Creates a new workspace in AnythingLLM.",
+                        "name": "anyllm-workspace-new",
+                        "source_repo": "content"
+                    },
+                    {
+                        "deprecated": false,
+                        "description": "Delete a document.",
+                        "name": "anyllm-document-delete",
+                        "source_repo": "content"
+                    },
+                    {
+                        "deprecated": false,
+                        "description": "Update workspace settings.  Anything LLM APIs are documented at:   <URL>/api/docs.",
+                        "name": "anyllm-workspace-settings",
+                        "source_repo": "content"
+                    },
+                    {
+                        "deprecated": false,
+                        "description": "Send a stream chat message to a workspace (default thread). Query mode is based on embedded documents in chat, whereas chat mode is more general.",
+                        "name": "anyllm-workspace-stream-chat",
+                        "source_repo": "content"
+                    },
+                    {
+                        "deprecated": false,
+                        "description": "Upload text content as a document to the custom-documents folder.",
+                        "name": "anyllm-document-upload-text",
+                        "source_repo": "content"
+                    },
+                    {
+                        "deprecated": false,
+                        "description": "Deletes an AnythingLLM workspace.",
+                        "name": "anyllm-workspace-delete",
+                        "source_repo": "content"
+                    },
+                    {
+                        "deprecated": false,
+                        "description": "Set the pinned status of a document embedding.",
+                        "name": "anyllm-workspace-pin",
+                        "source_repo": "content"
+                    },
+                    {
+                        "deprecated": false,
+                        "description": "Send a chat message to a workspace (default thread). Query mode is based on embedded documents in chat, whereas chat mode is more general.",
+                        "name": "anyllm-workspace-chat",
+                        "source_repo": "content"
+                    }
+                ],
+                "deprecated": false,
+                "description": "Retrieval Augmented Generation (RAG) with LLM and Vector DB that can be local for full data privacy or cloud-based for greater functionality.\n\nAPIs are documented at: <Anything LLM URL> /api/docs \n\nProduct documentation: https://docs.useanything.com/",
+                "fromversion": "6.10.0",
+                "id": "AnythingLLM",
+                "isfetch": false,
+                "isfetchassets": false,
+                "isfetchevents": false,
+                "name": "AnythingLLM (Community Contribution)",
+                "toversion": ""
+            }
+        ]
+    },
+    "contributors": null,
+    "created": "2024-07-23T19:18:22Z",
+    "currentVersion": "1.0.0",
+    "defaultDataSource": null,
+    "dependencies": {
+        "Base": {
+            "author": "Cortex XSOAR",
+            "certification": "certified",
+            "mandatory": true,
+            "minVersion": "1.35.5",
+            "name": "Base"
+        }
+    },
+    "deprecated": false,
+    "description": "This content pack contains an integration for Anything LLM that supports the use of Retrieval Augmented Generation (RAG) with an LLM and vector DB.  The LLM and vector DB can be fully local for maximum data privacy or configured to use cloud-based services such as OpenAI.  A large range of LLMs and vector DBs are supported. ",
+    "display_name": "Anything LLM",
+    "downloads": 14,
+    "eulaLink": "https://github.com/demisto/content/blob/master/LICENSE",
+    "excludedDependencies": [],
+    "git_sha": null,
+    "git_status": null,
+    "hidden": false,
+    "hybrid": false,
+    "id": "AnythingLLM",
+    "integrations": [
+        {
+            "name": "AnythingLLM",
+            "imagePath": "content/packs/AnythingLLM/AnythingLLM_image.png"
+        }
+    ],
+    "keywords": [],
+    "legacy": true,
+    "marketplaces": [
+        "marketplacev2",
+        "xsoar",
+        "xsoar_saas"
+    ],
+    "modules": [],
+    "name": "Anything LLM",
+    "old_base_content_object": null,
+    "price": 0,
+    "searchRank": 0,
+    "serverMinVersion": "6.10.0",
+    "source_repo": "content",
+    "support": "community",
+    "supportDetails": {},
+    "tags": [],
+    "updated": "2024-11-21T10:36:11Z",
+    "useCases": [],
+    "versionInfo": "1681986",
+    "videos": []
+}
