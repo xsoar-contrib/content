@@ -1,0 +1,152 @@
+commonfields:
+  id: AnalyzeIncidentContextWithLocalAI
+  version: -1
+name: AnalyzeIncidentContextWithLocalAI
+script: 
+  type: python
+  docker_image: LocalAI
+  subtype: python3
+  commands:
+    - name: analyze-incident-context
+      arguments:
+        - name: incident_id
+          description: "The ID of the incident to analyze."
+          required: true
+        - name: model
+          description: "The AI model to use (default: llama3.2:latest)."
+          defaultValue: "llama3.2:latest"
+      outputs:
+        - contextPath: AnalyzeIncidentContext.Result
+          description: "The analysis result from LocalAI."
+          type: string
+  script: |
+  from ollama import chat, ChatResponse
+  import json
+  from typing import List, Dict
+
+  def analyze_incident(incident_id: str, text: str, context_data: Dict, model: str) -> str:
+      """
+      Analyzes an incident using Ollama LLM with additional context data.
+
+      Args:
+          incident_id (str): The ID of the incident.
+          text (str): The incident description.
+          context_data (Dict): The extracted context data.
+          model (str): The name of the model to use.
+
+      Returns:
+          str: The AI-generated analysis.
+      """
+      # Convert context data into a readable format
+      context_summary = json.dumps(context_data, indent=2) if context_data else "No additional context available."
+
+      messages: List[Dict[str, str]] = [
+          {"role": "system", "content": "You are an AI assistant trained to analyze security incidents using contextual data."},
+          {"role": "user", "content": f"Incident ID: {incident_id}\n\nDescription: {text}\n\nContext Data: {context_summary}\n\nAnalyze this incident and provide a detailed assessment."}
+      ]
+
+      try:
+          response: ChatResponse = chat(model=model, messages=messages)
+          return response.message.content
+      except Exception as e:
+          raise DemistoException(f"Error in incident analysis: {str(e)}")
+
+  def main() -> None:
+      """
+      Main function to retrieve context data, analyze the incident, and return results.
+      """
+      try:
+          # Get incident ID
+          incident_id = demisto.incident().get('id')
+          text = demisto.args().get('text', '')
+          model = demisto.args().get('model', '')
+
+          # Retrieve incident context data
+          context_data = demisto.context()
+
+          if not text:
+              raise DemistoException("Incident text is required")
+
+          # Analyze the incident with context data
+          result = analyze_incident(incident_id, text, context_data, model)
+
+          # Generate output
+          readable_output = tableToMarkdown(
+              f"Incident Analysis Result for ID: {incident_id}",
+              {"Analysis": result}
+          )
+
+          return_results({
+              'Type': entryTypes['note'],
+              'ContentsFormat': formats['json'],
+              'Contents': result,
+              'HumanReadable': readable_output
+          })
+
+      except Exception as e:
+          return_error(f"Error in Incident Analysis: {str(e)}")
+
+  if __name__ in ('__main__', '__builtin__', 'builtins'):
+      main()
+type: python
+tags: []
+enabled: true
+args:
+- name: incident_id
+  defaultValue: id
+- name: model
+  auto: PREDEFINED
+  predefined:
+  - llama3.2:latest
+  defaultValue: model
+- name: text
+  auto: PREDEFINED
+  predefined:
+  - What is the incident type
+  - when was the incident first detected
+  - who reported the incident
+  - what is the current status of the investigation
+  - what triggered the initial alert
+  - are there any known Indicators of Compromise (IoCs)
+  - which security tools detected the incident
+  - what log sources provide relevant data
+  - which systems
+  - users
+  - or networks are affected
+  - how widespread is the impact
+  - is there evidence of lateral movement
+  - has any sensitive data been accessed or exfiltrated
+  - what tactics
+  - techniques
+  - and procedures (TTPs) were used
+  - is this part of a known attack campaign
+  - what vulnerabilities were exploited
+  - were there any privilege escalation attempts
+  - what containment actions have been taken
+  - has the affected system been isolated
+  - what remediation steps are in progress
+  - have any incident response playbooks been followed
+  - is there evidence of a specific threat actor
+  - are there any indicators linking this to a known APT group
+  - is this a targeted attack or an opportunistic one
+  - what lessons can be learned from this incident
+  - how can detection and response be improved
+  - are additional security controls needed to prevent recurrence
+  - have relevant stakeholders been informed.
+  defaultValue: text
+scripttarget: 0
+subtype: python3
+timeout: 360ns
+pswd: ""
+runonce: true
+dockerimage: localai:latest
+runas: DBotWeakRole
+engineinfo: {}
+mainengineinfo: {}
+runonce: false
+type: python
+tags:
+  - AI
+  - IncidentAnalysis
+  - LocalAI
+comment: "Automates incident context analysis using LocalAI (Ollama)."
