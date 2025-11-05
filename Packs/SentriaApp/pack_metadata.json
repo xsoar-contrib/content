@@ -1,0 +1,21 @@
+{
+    "name": "Sentria App",
+    "description": "Pack to connect and send data to Sentria App",
+    "support": "community",
+    "currentVersion": "1.0.0",
+    "author": "Netdata Networks",
+    "url": "",
+    "email": "",
+    "created": "2025-11-05T15:46:45Z",
+    "categories": [],
+    "tags": [],
+    "useCases": [],
+    "keywords": [],
+    "marketplaces": [
+        "xsoar",
+        "marketplacev2"
+    ],
+    "githubUser": [
+        "CristianZapataNetdata"
+    ]
+}
