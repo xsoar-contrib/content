@@ -1,0 +1,840 @@
+category: Utilities
+commonfields:
+  id: VeracodeApp
+  version: -1
+configuration:
+- defaultvalue: https://api.veracode.com/
+  display: Server URL
+  name: url
+  required: true
+  type: 0
+- display: ''
+  name: api_key_id
+  required: true
+  type: 0
+- display: ''
+  name: api_key_secret
+  required: true
+  type: 4
+- display: Use system proxy settings
+  name: proxy
+  required: false
+  type: 8
+- display: Trust any certificate (not secure)
+  name: insecure
+  required: false
+  type: 8
+description: "Veracode Applications API Documentation\n\nUse one of the following base URLs depending on the region for your account:\n* https://api.veracode.com/ - Veracode US Region (default)\n* https://api.veracode.eu/ - Veracode European Region\n* https://api.veracode.us/ - Veracode US Federal Region."
+display: Veracode App
+name: VeracodeApp
+script:
+  commands:
+  - arguments:
+    - name: applicationguid
+    description: Returns application information and links to associated resources.
+    name: veracode-getapplication
+    outputs:
+    - contextPath: VeracodeApp.Getapplication
+      type: unknown
+  - arguments:
+    - name: archer_app_name
+    - name: business_criticality
+      type: unknown
+    - name: email
+    - name: business_owners_name
+    - name: business_unit_guid
+    - name: description
+    - name: profile_name
+    - name: policies_guid
+    - name: is_default
+    - name: dynamic_scan_approval_not_required
+    - name: nextday_consultation_allowed
+    - name: sca_enabled
+    - name: static_scan_dependencies_allowed
+    - name: tags
+    - isArray: true
+      name: teams_guid
+      type: unknown
+    description: Creates a new application and links it to associated resources such as policies and sandboxes.
+    name: veracode-createapplication
+    outputs:
+    - contextPath: VeracodeApp.Createapplication
+      type: unknown
+  - arguments:
+    - name: policyguid
+    description: Returns the latest version of the policy.
+    name: veracode-getpolicy
+    outputs:
+    - contextPath: VeracodeApp.Getpolicy.category
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.created
+      description: ''
+      type: Date
+    - contextPath: VeracodeApp.Getpolicy.custom_severities.cwe
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicy.custom_severities.severity
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicy.description
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.evaluation_date
+      description: ''
+      type: Date
+    - contextPath: VeracodeApp.Getpolicy.evaluation_date_type
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.finding_rules.coordinates.coordinate1
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.finding_rules.coordinates.coordinate2
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.finding_rules.coordinates.created_by
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.finding_rules.coordinates.created_date
+      description: ''
+      type: Date
+    - contextPath: VeracodeApp.Getpolicy.finding_rules.coordinates.finding_rule.value
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.finding_rules.coordinates.repo_type
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.finding_rules.coordinates.version
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.finding_rules.policy_version.category
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.finding_rules.policy_version.created
+      description: ''
+      type: Date
+    - contextPath: VeracodeApp.Getpolicy.finding_rules.policy_version.custom_severities.cwe
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicy.finding_rules.policy_version.custom_severities.severity
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicy.finding_rules.policy_version.description
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.finding_rules.policy_version.evaluation_date
+      description: ''
+      type: Date
+    - contextPath: VeracodeApp.Getpolicy.finding_rules.policy_version.evaluation_date_type
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.finding_rules.policy_version.finding_rules.coordinates.value
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.finding_rules.policy_version.finding_rules.policy_version.value
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.finding_rules.policy_version.finding_rules.scan_type.value
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.finding_rules.policy_version.finding_rules.type
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.finding_rules.policy_version.finding_rules.advanced_options.value
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.finding_rules.policy_version.finding_rules.value
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.finding_rules.policy_version.sca_grace_periods.sca_blacklist_grace_period
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicy.finding_rules.policy_version.sca_grace_periods.license_risk_grace_period
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicy.finding_rules.policy_version.sca_grace_periods.severity_grace_period.sev0_grace_period.value
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.finding_rules.policy_version.sca_grace_periods.severity_grace_period.sev1_grace_period.value
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.finding_rules.policy_version.sca_grace_periods.severity_grace_period.sev2_grace_period.value
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.finding_rules.policy_version.sca_grace_periods.severity_grace_period.sev3_grace_period.value
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.finding_rules.policy_version.sca_grace_periods.severity_grace_period.sev4_grace_period.value
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.finding_rules.policy_version.sca_grace_periods.cvss_score_grace_period.value
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.finding_rules.policy_version.guid
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.finding_rules.policy_version.modified_by
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.finding_rules.policy_version.name
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.finding_rules.policy_version.organization_id
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicy.finding_rules.policy_version.sca_blacklist_grace_period
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicy.finding_rules.policy_version.scan_frequency_rules.frequency
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.finding_rules.policy_version.scan_frequency_rules.policy_version.value
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.finding_rules.policy_version.scan_frequency_rules.scan_type
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.finding_rules.policy_version.score_grace_period
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicy.finding_rules.policy_version.sev0_grace_period
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicy.finding_rules.policy_version.sev1_grace_period
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicy.finding_rules.policy_version.sev2_grace_period
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicy.finding_rules.policy_version.sev3_grace_period
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicy.finding_rules.policy_version.sev4_grace_period
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicy.finding_rules.policy_version.sev5_grace_period
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicy.finding_rules.policy_version.type
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.finding_rules.policy_version.vendor_policy
+      description: ''
+      type: Boolean
+    - contextPath: VeracodeApp.Getpolicy.finding_rules.policy_version.version
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicy.finding_rules.scan_type
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.finding_rules.type
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.finding_rules.advanced_options.all_licenses_must_meet_requirement
+      description: ''
+      type: Boolean
+    - contextPath: VeracodeApp.Getpolicy.finding_rules.advanced_options.allowed_nonoss_licenses
+      description: ''
+      type: Boolean
+    - contextPath: VeracodeApp.Getpolicy.finding_rules.advanced_options.finding_rule.value
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.finding_rules.advanced_options.is_blocklist
+      description: ''
+      type: Boolean
+    - contextPath: VeracodeApp.Getpolicy.finding_rules.advanced_options.selected_licenses.spdx_id
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.finding_rules.advanced_options.selected_licenses.full_name
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.finding_rules.advanced_options.selected_licenses.name
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.finding_rules.advanced_options.selected_licenses.risk
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.finding_rules.advanced_options.selected_licenses.url
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.finding_rules.value
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.sca_grace_periods.sca_blacklist_grace_period
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicy.sca_grace_periods.license_risk_grace_period
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicy.sca_grace_periods.severity_grace_period.sev0_grace_period
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicy.sca_grace_periods.severity_grace_period.sev1_grace_period
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicy.sca_grace_periods.severity_grace_period.sev2_grace_period
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicy.sca_grace_periods.severity_grace_period.sev3_grace_period
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicy.sca_grace_periods.severity_grace_period.sev4_grace_period
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicy.sca_grace_periods.cvss_score_grace_period.upper
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicy.sca_grace_periods.cvss_score_grace_period.lower
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicy.sca_grace_periods.cvss_score_grace_period.days
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicy.guid
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.modified_by
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.name
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.organization_id
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicy.sca_blacklist_grace_period
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicy.scan_frequency_rules.frequency
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.scan_frequency_rules.policy_version.category
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.scan_frequency_rules.policy_version.created
+      description: ''
+      type: Date
+    - contextPath: VeracodeApp.Getpolicy.scan_frequency_rules.policy_version.custom_severities.cwe
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicy.scan_frequency_rules.policy_version.custom_severities.severity
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicy.scan_frequency_rules.policy_version.description
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.scan_frequency_rules.policy_version.evaluation_date
+      description: ''
+      type: Date
+    - contextPath: VeracodeApp.Getpolicy.scan_frequency_rules.policy_version.evaluation_date_type
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.scan_frequency_rules.policy_version.finding_rules.coordinates.value
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.scan_frequency_rules.policy_version.finding_rules.policy_version.value
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.scan_frequency_rules.policy_version.finding_rules.scan_type.value
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.scan_frequency_rules.policy_version.finding_rules.type
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.scan_frequency_rules.policy_version.finding_rules.advanced_options.value
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.scan_frequency_rules.policy_version.finding_rules.value
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.scan_frequency_rules.policy_version.sca_grace_periods.sca_blacklist_grace_period
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicy.scan_frequency_rules.policy_version.sca_grace_periods.license_risk_grace_period
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicy.scan_frequency_rules.policy_version.sca_grace_periods.severity_grace_period.sev0_grace_period.value
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.scan_frequency_rules.policy_version.sca_grace_periods.severity_grace_period.sev1_grace_period.value
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.scan_frequency_rules.policy_version.sca_grace_periods.severity_grace_period.sev2_grace_period.value
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.scan_frequency_rules.policy_version.sca_grace_periods.severity_grace_period.sev3_grace_period.value
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.scan_frequency_rules.policy_version.sca_grace_periods.severity_grace_period.sev4_grace_period.value
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.scan_frequency_rules.policy_version.sca_grace_periods.cvss_score_grace_period.value
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.scan_frequency_rules.policy_version.guid
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.scan_frequency_rules.policy_version.modified_by
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.scan_frequency_rules.policy_version.name
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.scan_frequency_rules.policy_version.organization_id
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicy.scan_frequency_rules.policy_version.sca_blacklist_grace_period
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicy.scan_frequency_rules.policy_version.scan_frequency_rules.frequency
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.scan_frequency_rules.policy_version.scan_frequency_rules.policy_version.value
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.scan_frequency_rules.policy_version.scan_frequency_rules.scan_type
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.scan_frequency_rules.policy_version.score_grace_period
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicy.scan_frequency_rules.policy_version.sev0_grace_period
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicy.scan_frequency_rules.policy_version.sev1_grace_period
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicy.scan_frequency_rules.policy_version.sev2_grace_period
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicy.scan_frequency_rules.policy_version.sev3_grace_period
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicy.scan_frequency_rules.policy_version.sev4_grace_period
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicy.scan_frequency_rules.policy_version.sev5_grace_period
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicy.scan_frequency_rules.policy_version.type
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.scan_frequency_rules.policy_version.vendor_policy
+      description: ''
+      type: Boolean
+    - contextPath: VeracodeApp.Getpolicy.scan_frequency_rules.policy_version.version
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicy.scan_frequency_rules.scan_type
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.score_grace_period
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicy.sev0_grace_period
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicy.sev1_grace_period
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicy.sev2_grace_period
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicy.sev3_grace_period
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicy.sev4_grace_period
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicy.sev5_grace_period
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicy.type
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicy.vendor_policy
+      description: ''
+      type: Boolean
+    - contextPath: VeracodeApp.Getpolicy.version
+      description: ''
+      type: Number
+  - arguments:
+    - name: category
+    - name: legacy_policy_id
+    - name: name
+    - name: name_exact
+    - name: org
+    - name: page
+    - name: public_policy
+    - name: size
+    - name: vendor_policy
+    description: Returns a list of policies. The individual policy has links to policy evaluations performed against this policy.
+    name: veracode-getpolicies
+    outputs:
+    - contextPath: VeracodeApp.Getpolicies._embedded.policy_versions.category
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicies._embedded.policy_versions.created
+      description: ''
+      type: Date
+    - contextPath: VeracodeApp.Getpolicies._embedded.policy_versions.custom_severities.cwe
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicies._embedded.policy_versions.custom_severities.severity
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicies._embedded.policy_versions.description
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicies._embedded.policy_versions.evaluation_date
+      description: ''
+      type: Date
+    - contextPath: VeracodeApp.Getpolicies._embedded.policy_versions.evaluation_date_type
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicies._embedded.policy_versions.finding_rules.coordinates.value
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicies._embedded.policy_versions.finding_rules.policy_version.value
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicies._embedded.policy_versions.finding_rules.scan_type.value
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicies._embedded.policy_versions.finding_rules.type
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicies._embedded.policy_versions.finding_rules.advanced_options.value
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicies._embedded.policy_versions.finding_rules.value
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicies._embedded.policy_versions.sca_grace_periods.sca_blacklist_grace_period
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicies._embedded.policy_versions.sca_grace_periods.license_risk_grace_period
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicies._embedded.policy_versions.sca_grace_periods.severity_grace_period.sev0_grace_period.value
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicies._embedded.policy_versions.sca_grace_periods.severity_grace_period.sev1_grace_period.value
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicies._embedded.policy_versions.sca_grace_periods.severity_grace_period.sev2_grace_period.value
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicies._embedded.policy_versions.sca_grace_periods.severity_grace_period.sev3_grace_period.value
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicies._embedded.policy_versions.sca_grace_periods.severity_grace_period.sev4_grace_period.value
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicies._embedded.policy_versions.sca_grace_periods.cvss_score_grace_period.value
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicies._embedded.policy_versions.guid
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicies._embedded.policy_versions.modified_by
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicies._embedded.policy_versions.name
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicies._embedded.policy_versions.organization_id
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicies._embedded.policy_versions.sca_blacklist_grace_period
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicies._embedded.policy_versions.scan_frequency_rules.frequency
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicies._embedded.policy_versions.scan_frequency_rules.policy_version.value
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicies._embedded.policy_versions.scan_frequency_rules.scan_type
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicies._embedded.policy_versions.score_grace_period
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicies._embedded.policy_versions.sev0_grace_period
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicies._embedded.policy_versions.sev1_grace_period
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicies._embedded.policy_versions.sev2_grace_period
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicies._embedded.policy_versions.sev3_grace_period
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicies._embedded.policy_versions.sev4_grace_period
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicies._embedded.policy_versions.sev5_grace_period
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicies._embedded.policy_versions.type
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicies._embedded.policy_versions.vendor_policy
+      description: ''
+      type: Boolean
+    - contextPath: VeracodeApp.Getpolicies._embedded.policy_versions.version
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getpolicies._links.deprecation
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicies._links.href
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicies._links.hreflang
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicies._links.media
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicies._links.rel
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicies._links.templated
+      description: ''
+      type: Boolean
+    - contextPath: VeracodeApp.Getpolicies._links.title
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getpolicies._links.type
+      description: ''
+      type: String
+  - arguments:
+    - name: applicationguid
+    - name: context
+    - name: cve
+    - name: cvss
+    - name: cvss_gte
+    - name: cwe
+    - name: cwe
+    - name: finding_category
+    - name: finding_category
+    - name: include_annot
+    - name: include_exp_date
+    - name: mitigated_after
+    - name: new
+    - name: sca_dep_mode
+    - name: sca_scan_mode
+    - name: scan_type
+    - name: severity
+    - name: severity_gte
+    - name: violates_policy
+    description: Returns findings information from Veracode scans.
+    name: veracode-getfindings
+    outputs:
+    - contextPath: VeracodeApp.Getfindings._embedded.findings.annotations.action
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getfindings._embedded.findings.annotations.comment
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getfindings._embedded.findings.annotations.created
+      description: ''
+      type: Date
+    - contextPath: VeracodeApp.Getfindings._embedded.findings.annotations.remaining_risk
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getfindings._embedded.findings.annotations.specifics
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getfindings._embedded.findings.annotations.technique
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getfindings._embedded.findings.annotations.user_name
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getfindings._embedded.findings.annotations.verification
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getfindings._embedded.findings.build_id
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getfindings._embedded.findings.context_guid
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getfindings._embedded.findings.context_type
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getfindings._embedded.findings.count
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getfindings._embedded.findings.description
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getfindings._embedded.findings.finding_status.first_found_date
+      description: ''
+      type: Date
+    - contextPath: VeracodeApp.Getfindings._embedded.findings.finding_status.last_seen_date
+      description: ''
+      type: Date
+    - contextPath: VeracodeApp.Getfindings._embedded.findings.finding_status.mitigation_review_status
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getfindings._embedded.findings.finding_status.new
+      description: ''
+      type: Boolean
+    - contextPath: VeracodeApp.Getfindings._embedded.findings.finding_status.resolution
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getfindings._embedded.findings.finding_status.resolution_status
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getfindings._embedded.findings.finding_status.status
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getfindings._embedded.findings.grace_period_expires_date
+      description: ''
+      type: Date
+    - contextPath: VeracodeApp.Getfindings._embedded.findings.issue_id
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getfindings._embedded.findings.scan_type
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getfindings._embedded.findings.violates_policy
+      description: ''
+      type: Boolean
+    - contextPath: VeracodeApp.Getfindings._link.deprecation
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getfindings._link.href
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getfindings._link.hreflang
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getfindings._link.media
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getfindings._link.rel
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getfindings._link.templated
+      description: ''
+      type: Boolean
+    - contextPath: VeracodeApp.Getfindings._link.title
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getfindings._link.type
+      description: ''
+      type: String
+    - contextPath: VeracodeApp.Getfindings.page.number
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getfindings.page.size
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getfindings.page.total_elements
+      description: ''
+      type: Number
+    - contextPath: VeracodeApp.Getfindings.page.total_pages
+      description: ''
+      type: Number
+  - arguments:
+    - name: applicationguid
+    description: Returns Summary Report for an Application.
+    name: veracode-getsummaryreport
+    outputs:
+    - contextPath: VeracodeApp.SummaryReport
+  - arguments:
+    - name: applicationguid
+      required: true
+    - name: archer_app_name
+      required: true
+    - name: business_criticality
+    - name: email
+    - name: business_owners_name
+    - name: business_unit_guid
+    - name: custom_fields_name
+    - name: value
+    - name: description
+    - name: profile_name
+      required: true
+    - name: policies_guid
+    - name: is_default
+    - name: dynamic_scan_approval_not_required
+    - name: nextday_consultation_allowed
+    - name: sca_enabled
+    - name: static_scan_dependencies_allowed
+    - name: tags
+    - isArray: true
+      name: teams_guid
+    description: Update fields of an existing application.
+    name: veracode-updateapplication
+    outputs:
+    - contextPath: VeracodeApp.Updateapplication
+  - arguments:
+    - name: application_guid
+      required: true
+    - auto: PREDEFINED
+      defaultValue: 'false'
+      name: linked
+      predefined:
+      - 'true'
+      - 'false'
+    - auto: PREDEFINED
+      defaultValue: application
+      name: type
+      predefined:
+      - application
+      - agent
+      required: true
+    - auto: PREDEFINED
+      defaultValue: 'false'
+      name: vulnerability
+      predefined:
+      - 'true'
+      - 'false'
+    - auto: PREDEFINED
+      defaultValue: cyclonedx
+      name: output_type
+      predefined:
+      - cyclonedx
+      - spdx
+    name: veracode-get-sbom
+    outputs:
+    - contextPath: VeracodeApp.GetSBOM
+  - arguments:
+    - name: name
+    - name: business_unit
+    - description: Format YYYY-MM-DD.
+      name: modified_after
+    - name: size
+    - name: page
+    - name: policy
+    - name: policy_compliance
+    - name: policy_guid
+    - name: scan_status
+    - auto: PREDEFINED
+      name: scan_type
+      predefined:
+      - STATIC
+      - DYNAMIC
+      - MANUAL
+    - name: tag
+    - name: team
+    - name: legacy_id
+    name: veracode-get-applications
+    outputs:
+    - contextPath: VeracodeApp.Getapplications
+  dockerimage: testveracode:latest
+  runonce: false
+  script: ''
+  subtype: python3
+  type: python
+fromversion: 6.0.0
+tests:
+- No tests (auto formatted)
